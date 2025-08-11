@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: drl-surface-seg
+Version: 0.0.1
+Summary: Module for DRL on surface segregation systems
+Home-page: https://github.com/ulissigroup/surface-seg
+Author: Jun Yoon, Yuyang, Amir Barati Farimani, Zack Ulissi
+Author-email: zulissi@andrew.cmu.edu
+License: GPL
+Platform: UNKNOWN
+
+Module for implementing DRL in surface segregation studies.
+

@@ -1,0 +1,29 @@
+name: amptorch
+channels:
+  - pytorch
+  - nvidia
+  - defaults
+dependencies:
+  - python=3.9.*
+  - pytorch=1.10.*
+  - cudatoolkit=11.3
+  - h5py
+  - matplotlib=3.3.*
+  - pip
+  - tqdm=4.45.*
+  - pip:
+    - ase==3.21.*
+    - cffi
+    - lmdb==1.0.0
+    - pre-commit
+    - pykdtree
+    - skorch==0.10.*
+    - torch-cluster==1.6.0
+    - -f https://data.pyg.org/whl/torch-1.10.0+cu113.html
+    - torch-geometric==2.2.0
+    - -f https://data.pyg.org/whl/torch-1.10.0+cu113.html
+    - torch-scatter==2.1.0
+    - -f https://data.pyg.org/whl/torch-1.10.0+cu113.html
+    - torch-sparse==0.6.13
+    - -f https://data.pyg.org/whl/torch-1.10.0+cu113.html
+    - numpy==1.20.*

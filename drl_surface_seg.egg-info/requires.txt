@@ -1,0 +1,8 @@
+tensorflow>=2.2.0
+tensorforce>=0.5.5
+ase>=3.19.1
+numpy
+matplotlib
+asap3
+seaborn
+amptorch

@@ -1,0 +1,11 @@
+numpy
+scipy
+scikit-learn
+pyyaml>=3.10
+cffi>=1.0.0
+psutil
+tqdm
+braceexpand
+matplotlib<3.4.0,>=3.1.0
+ase>=3.22.0
+tensorflow>=1.6
