@@ -3,7 +3,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 #import seaborn as sns
-from surface_seg.envs.surfrecon_env import ACTION_LOOKUP
+from surface_seg.envs.catgym_env import ACTION_LOOKUP
 from ase.io import write
 from asap3 import EMT
 
@@ -18,39 +18,54 @@ def movingaverage(values, window):
     sma = np.convolve(values, weights, 'valid')
     return sma
 
+def exponential_moving_average(values, alpha=0.35):
+    ema = []
+    v = values[0]
+    for x in values:
+        v = alpha * x + (1.0 - alpha) * v
+        ema.append(v)
+    return ema
+
+
+
 class Callback():
     def __init__(self, total_episode, log_dir=None):
         self.log_dir = log_dir
         self.total_episode = total_episode
-        
+
     def plot_summary(self, plotting_values, xlabel, ylabel, save_path):
         plt.figure(figsize=(9, 7.5))
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
-        plt.title(ylabel+ ' vs. ' + xlabel)
-        plt.plot(plotting_values)
-        
+        plt.title(ylabel + ' vs. ' + xlabel)
+
+        ema_values = exponential_moving_average(plotting_values, alpha=0.35)
+        plt.plot(ema_values)
+
         window = 25
         if len(plotting_values) > window:
             steps = np.arange(len(plotting_values))
             yMA = movingaverage(plotting_values, window)
-            plt.plot(steps[len(steps)-len(yMA):], yMA)
-        plt.savefig(save_path, bbox_inches = 'tight')
+            plt.plot(steps[len(steps) - len(yMA):], yMA)
+
+        plt.savefig(save_path, bbox_inches='tight')
         return plt.close('all')
-    
-    def episode_finish(self, runner, parallel):  
+
+    def episode_finish(self, runner, parallel):
         log_dir = os.path.join(self.log_dir)
         if not os.path.exists(log_dir):
             os.makedirs(log_dir)
-        
+
         if runner.episodes == self.total_episode:
             runner.prev_terminals = [1 for i in range(len(runner.prev_terminals))]
             runner.terminals = [1 for i in range(len(runner.prev_terminals))]
             return False
+
         rewards = runner.episode_rewards
-        
+
         with open(os.path.join(log_dir, 'rewards.txt'), 'w') as outfile:
             json.dump(rewards, outfile)
+
         reward_path = os.path.join(log_dir, 'rewards.png')
         self.plot_summary(rewards, 'episodes', 'reward', reward_path)
         return True
